@@ -4,14 +4,17 @@ import axios from 'axios';
 import Navbar from "./layout/Navbar";
 import Users from "./users";
 import Search from "./search";
+import Alert, {AlertType} from "./layout/Alert";
 import { API } from "../api";
 import { IUserItem } from "./users/type";
 import './App.css';
+
 
 class App extends Component {
     state = {
         users: [],
         loading: false,
+        alert: null,
     }
 
     private onPreloader = () => this.setState({ loading: true });
@@ -44,17 +47,24 @@ class App extends Component {
         this.setState({ users: [] });
     }
 
+    setAlert = (msg: string, type: string) => {
+        this.setState({ alert: { msg, type } });
+        setTimeout(() => this.setState({ alert: null }), 3000);
+    }
+
     render() {
-        const { users, loading } = this.state;
+        const { users, loading, alert } = this.state;
 
         return (
             <div className="app">
                 <Navbar title=" Github Finder" icon="fab fa-github"/>
                 <div className="container">
+                    <Alert  alert={alert} />
                     <Search
                         searchUsers={this.searchUsers}
                         clear={this.clear}
                         showBtnClear={users.length > 0}
+                        setAlert={this.setAlert}
                     />
                     <Users loading={loading} users={users}/>
                 </div>

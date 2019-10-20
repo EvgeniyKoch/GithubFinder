@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, {Component, ReactNode} from "react";
+import {AlertType} from "../layout/Alert";
 
 type StateSearch = {
   text: string,
@@ -8,6 +9,7 @@ type Props = {
     showBtnClear: boolean,
     searchUsers(query: Key): Promise<void>,
     clear(): Promise<void>,
+    setAlert(msg: string, type: string): void,
 }
 
 class Search extends Component<Props, StateSearch> {
@@ -22,11 +24,11 @@ class Search extends Component<Props, StateSearch> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { searchUsers } = this.props;
+    const { searchUsers, setAlert } = this.props;
     const { text } = this.state;
 
     if (text === '') {
-        return null;
+        return setAlert(' Please enter something!', 'light');
     }
 
     searchUsers(text);
