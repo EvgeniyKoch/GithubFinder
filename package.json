@@ -1,5 +1,6 @@
 {
   "name": "type-app",
+  "homepage": "https://evgeniykoch.github.io/GithubFinder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +11,7 @@
     "@types/react-router-dom": "^4.3.2",
     "@types/webpack-env": "^1.13.9",
     "axios": "^0.19.0",
+    "gh-pages": "^2.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
@@ -20,6 +22,8 @@
     "typescript": "3.4.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
