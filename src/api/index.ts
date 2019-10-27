@@ -6,5 +6,7 @@ const BASE = () => `https://api.github.com`;
 
 export const API = {
     ALL_USERS: `${BASE()}/users?${client}`,
-    SEARCH: (query: Key) => `${BASE()}/search/users?q=${query}&${client}`,
+    SEARCH: (name: Key) => `${BASE()}/search/users?q=${name}&${client}`,
+    GET_USER: (name: Key) => `${BASE()}/users/${name}?${client}`,
+
 };

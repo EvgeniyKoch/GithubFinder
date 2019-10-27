@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import spinner from './spinner.gif';
 
 const Spinner = () => (
@@ -6,7 +7,8 @@ const Spinner = () => (
         <img
             src={spinner}
             alt="loading..."
-            style={{ width: '200px', margin: 'auto', display: 'block' }} />
+            style={{ width: '200px', margin: 'auto', display: 'block' }}
+        />
     </>
 );
 
