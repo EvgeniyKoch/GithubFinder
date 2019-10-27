@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './layout/Navbar';
 import Users from './users';
 import Search from './search';
-import Alert, { AlertType } from './layout/Alert';
+import Alert from './layout/Alert';
 import { API } from '../api';
-import { IUserItem } from './users/type';
-import './App.css';
 import About from './pages/About';
 import User from './users/User';
+import { setFormatUsers } from '../utils';
+import './App.css';
 
 class App extends Component {
     state = {
@@ -19,7 +19,6 @@ class App extends Component {
         loading: false,
         alert: null,
     }
-
 
     private onPreloader = () => this.setState({ loading: true });
     private offPreloader = () => this.setState({ loading: false });
@@ -34,7 +33,6 @@ class App extends Component {
     getUser = async (username: Key) => {
         this.onPreloader();
         const { data } = await axios.get(API.GET_USER(username));
-        console.log(data,' data getUser');
         this.setState({ user: data });
         this.offPreloader();
     }
@@ -44,8 +42,7 @@ class App extends Component {
 
         const { data } = await axios.get(API.ALL_USERS);
 
-        const users = data.map(({ login, id, avatar_url, html_url }: IUserItem) =>
-            ({ login, id, avatar_url, html_url }));
+        const users = setFormatUsers(data);
 
         this.setState({ users });
         this.offPreloader();
@@ -65,7 +62,7 @@ class App extends Component {
     }
 
     render() {
-        const { users, loading, alert } = this.state;
+        const { users, loading, alert, user } = this.state;
 
         return (
             <Router>
@@ -86,7 +83,14 @@ class App extends Component {
                                 </>
                             )}/>
                             <Route path="/about" component={About}/>
-                            <Route path="/user/:login" component={User}/>
+                            <Route path="/user/:login" render={(props) =>
+                                <User
+                                    {...props}
+                                    getUser={this.getUser}
+                                    user={user}
+                                    loading={loading}
+                                />}
+                            />
                         </Switch>
                     </div>
                 </div>
