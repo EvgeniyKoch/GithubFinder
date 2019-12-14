@@ -1,12 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 interface INavbarProps {
     title: string;
     icon: string;
 }
 
-const Navbar: React.StatelessComponent<INavbarProps> = ({ title, icon }) => (
+const Navbar: React.FC<INavbarProps> = ({ title, icon }) => (
     <nav className="navbar bg-primary">
         <h1>
             <i className={icon} />

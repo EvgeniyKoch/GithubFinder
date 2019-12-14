@@ -1,13 +1,15 @@
 import React from 'react';
 
-export type AlertType  = {
-    alert: null | {
-        msg: string,
-        type: string,
-    },
+export type AlertType = {
+    msg: string;
+    type: string;
+} | null;
+
+interface IAlert {
+    alert: AlertType;
 }
 
-const Alert: React.StatelessComponent<AlertType> = ({ alert }) => {
+const Alert: React.FC<IAlert> = ({ alert }) => {
     if (alert === null) {
         return null;
     }
