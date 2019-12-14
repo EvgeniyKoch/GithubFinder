@@ -1,67 +1,56 @@
-import React, {Component, ReactNode} from "react";
-import {AlertType} from "../layout/Alert";
+import React, { useState } from 'react';
 
-type StateSearch = {
-  text: string,
-};
-
-type Props = {
-    showBtnClear: boolean,
-    searchUsers(query: Key): Promise<void>,
-    clear(): Promise<void>,
-    setAlert(msg: string, type: string): void,
+interface IProps {
+    showBtnClear: boolean;
+    searchUsers(query: Key): Promise<void>;
+    clear(): Promise<void>;
+    setAlert(msg: string, type: string): void;
 }
 
-class Search extends Component<Props, StateSearch> {
-  state = {
-    text: ""
-  };
+const Search: React.FC<IProps> = (props) => {
+    const [text, setText] = useState<string>('');
 
-  handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = event.target;
-      this.setState({ text: value });
-  }
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setText(event.target.value);
+    };
 
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { searchUsers, setAlert } = this.props;
-    const { text } = this.state;
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const { searchUsers, setAlert } = props;
 
-    if (text === '') {
-        return setAlert(' Please enter something!', 'light');
-    }
+        if (text === '') {
+            return setAlert(' Please enter something!', 'light');
+        }
 
-    searchUsers(text);
-    this.setState({ text: ''});
-  }
+        searchUsers(text);
+        setText('');
+    };
 
-  handleClear = () => {
-    const { clear } = this.props;
-    clear();
-  }
+    const handleClear = () => {
+        const { clear } = props;
+        clear();
+    };
 
-  renderClearBtn = () => (
+    const renderClearBtn = () => (
       <button
           type="button"
           className="btn btn-light btn-block"
-          onClick={this.handleClear}
+          onClick={handleClear}
       >
           Clear
       </button>
-  )
+    );
 
-  render() {
-    const { text } = this.state;
-    const { showBtnClear } = this.props;
+    const { showBtnClear } = props;
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="form">
           <input
             type="text"
             name="text"
             placeholder="Search Users..."
-            onChange={this.handleSearch}
+            onChange={handleSearch}
             value={text}
           />
           <input
@@ -69,11 +58,10 @@ class Search extends Component<Props, StateSearch> {
             value="Search"
             className="btn btn-dark btn-block"
           />
-          {showBtnClear && this.renderClearBtn()}
+          {showBtnClear && renderClearBtn()}
         </form>
       </div>
     );
-  }
-}
+};
 
 export default Search;
