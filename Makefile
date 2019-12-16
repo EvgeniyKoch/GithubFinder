@@ -20,8 +20,7 @@ lint:
 	npx eslint .
 
 deploy:
-	build
-	npm deploy
+	npm run deploy
 
 .PHONY:
 	test

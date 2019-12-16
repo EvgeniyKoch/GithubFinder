@@ -18,18 +18,18 @@ export interface ILogin {
 
 export interface IUserItemDesc {
     name?: string;
-    company?: string;
-    avatar_url?: string;
-    location?: string;
-    bio?: string;
-    blog?: string;
-    login?: string;
+    company: string;
+    avatar_url: string;
+    location: string;
+    bio: string;
+    blog: string;
+    login: string;
     html_url?: string;
-    followers?: string;
-    following?: string;
-    public_repos?: string;
-    public_gists?: string;
-    hireable?: string;
+    followers: string;
+    following: string;
+    public_repos: string;
+    public_gists: string;
+    hireable: string;
 }
 
 export interface IRepoItem {
@@ -39,9 +39,6 @@ export interface IRepoItem {
 }
 
 export interface IUserProps extends RouteComponentProps<ILogin> {
-    user: IUserItemDesc;
     repos: IRepoItem[];
-    loading: boolean;
-    getUser(name: Key): Promise<void>;
     getUserRepos(name: Key): Promise<void>;
 }

@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
-import UsersItem from "./UsersItem";
-import Spinner from "../layout/Spinner";
-import { IUsersProps } from "./type";
+import UsersItem from './UsersItem';
+import Spinner from '../layout/Spinner';
+import GitHubContext from '../../context/github/githubContext';
 
-const Users: React.StatelessComponent<IUsersProps> = ({ users, loading }) => {
+const Users = () => {
+    const githubContext = useContext(GitHubContext);
+    const { loading, getDefaultUsers, users } = githubContext;
+
+    useEffect(() => {
+        getDefaultUsers();
+    }, []);
+
     if (loading) {
         return <Spinner />;
     }
 
     return (
         <div style={userStyle}>
-            {users.map((user) => <UsersItem key={user.id} {...user} />)}
+            {users.map(user => <UsersItem key={user.id} {...user} />)}
         </div>
     );
-}
+};
 
 const userStyle = {
     display: 'grid',
