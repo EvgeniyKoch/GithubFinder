@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AlertContext from '../../context/alert/alertContext';
 
-export type AlertType = {
+export type AlertType = null | {
     msg: string;
     type: string;
-} | null;
+};
 
-interface IAlert {
-    alert: AlertType;
-}
+const Alert = () => {
+    const githubContext = useContext(AlertContext);
+    const { alert } = githubContext;
 
-const Alert: React.FC<IAlert> = ({ alert }) => {
     if (alert === null) {
         return null;
     }

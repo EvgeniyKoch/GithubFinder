@@ -1,12 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useContext, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
-import { IUserProps } from './type';
+import { ILogin } from './type';
 import RepoItem from '../repos/RepoItem';
+import GitHubContext from '../../context/github/githubContext';
 
-const User: React.FC<IUserProps> = (props) => {
+const User = (props: RouteComponentProps<ILogin>) => {
+    const githubContext = useContext(GitHubContext);
+
     useEffect(() => {
-        const { match: { params }, getUser, getUserRepos } = props;
+        const { match: { params } } = props;
+        const { getUser, getUserRepos } = githubContext;
+
         getUser(params.login);
         getUserRepos(params.login);
     }, []);
@@ -36,7 +41,7 @@ const User: React.FC<IUserProps> = (props) => {
         </Fragment>
     );
 
-    const { user, loading, repos } = props;
+    const { repos, user, loading } = githubContext;
     const {
         name,
         company,

@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import GitHubContext from '../../context/github/githubContext';
+import AlertContext from '../../context/alert/alertContext';
 
-interface IProps {
-    showBtnClear: boolean;
-    searchUsers(query: Key): Promise<void>;
-    clear(): Promise<void>;
-    setAlert(msg: string, type: string): void;
-}
+const Search = () => {
+    const githubContext = useContext(GitHubContext);
+    const alertContext = useContext(AlertContext);
 
-const Search: React.FC<IProps> = (props) => {
     const [text, setText] = useState<string>('');
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,19 +14,18 @@ const Search: React.FC<IProps> = (props) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { searchUsers, setAlert } = props;
+        const { setAlert } = alertContext;
 
         if (text === '') {
             return setAlert(' Please enter something!', 'light');
         }
 
-        searchUsers(text);
+        githubContext.searchUsers!(text);
         setText('');
     };
 
     const handleClear = () => {
-        const { clear } = props;
-        clear();
+        githubContext.clear();
     };
 
     const renderClearBtn = () => (
@@ -41,7 +38,7 @@ const Search: React.FC<IProps> = (props) => {
       </button>
     );
 
-    const { showBtnClear } = props;
+    const { users } = githubContext;
 
     return (
       <div>
@@ -58,7 +55,7 @@ const Search: React.FC<IProps> = (props) => {
             value="Search"
             className="btn btn-dark btn-block"
           />
-          {showBtnClear && renderClearBtn()}
+          {users.length > 0 && renderClearBtn()}
         </form>
       </div>
     );
